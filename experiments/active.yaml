@@ -1,0 +1,13 @@
+experiment:
+  id: HM-000
+  title: Baseline Isolation
+  status: active
+  version: mini-0.1.0
+  started_at: 2026-07-03
+  goal: Verify HunterMini isolation before strategy changes.
+  production_reference: HunterBot current production.
+  change_notes:
+    - No strategy changes.
+    - No TP/SL/trailing changes.
+    - Independent database, port, logs, reports, and identity.
+  decision: collecting_data
