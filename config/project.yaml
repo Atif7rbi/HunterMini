@@ -1,0 +1,17 @@
+project:
+  name: HunterMini
+  display_name: HunterMini
+  version: 1.0.0
+  build: v1.0.0
+  environment: validation
+
+experiment:
+  active: EXP-001
+
+database:
+  name: Hunter_mini.db
+  path: data/Hunter_mini.db
+
+runtime:
+  pm2_name: HunterMini
+  port: 8083
