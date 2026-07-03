@@ -205,6 +205,15 @@ class Trade(Base):
     created_at: Mapped[datetime] = mapped_column(DateTime, default=func.now())
     triggered_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
     closed_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
+
+    # HunterMini experiment tracking
+    experiment_id: Mapped[Optional[str]] = mapped_column(String(32), nullable=True)
+    experiment_name: Mapped[Optional[str]] = mapped_column(String(128), nullable=True)
+    experiment_version: Mapped[Optional[str]] = mapped_column(String(32), nullable=True)
+    experiment_build: Mapped[Optional[str]] = mapped_column(String(64), nullable=True)
+    experiment_status: Mapped[Optional[str]] = mapped_column(String(32), nullable=True)
+    experiment_tracked_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
+
     notes: Mapped[Optional[str]] = mapped_column(String(1024), nullable=True)
 
 

@@ -34,6 +34,7 @@ from src.core.database import (
     TradeDirection,
     TradeStatus,
 )
+from src.core.experiment import get_experiment_trade_metadata
 from src.core.logger import logger
 from src.layers.trade_generator import TradeCard
 from src.layers.trade_quality_classifier import classify_trade_quality
@@ -419,6 +420,7 @@ class PaperExecutor:
         # ── 7. Create PENDING trade ──────────────────────────────────────────
         quality = classify_trade_quality(card)
         profile = profile_for_quality(quality.quality_class)
+        experiment_meta = get_experiment_trade_metadata()
 
         async with AsyncSessionLocal() as s:
             trade = Trade(
@@ -475,6 +477,13 @@ class PaperExecutor:
                 trade_quality_class         = quality.quality_class,
                 trade_quality_score         = quality.quality_score,
                 trade_quality_reason        = quality.reason,
+
+                experiment_id             = experiment_meta["experiment_id"],
+                experiment_name           = experiment_meta["experiment_name"],
+                experiment_version        = experiment_meta["experiment_version"],
+                experiment_build          = experiment_meta["experiment_build"],
+                experiment_status         = experiment_meta["experiment_status"],
+                experiment_tracked_at     = experiment_meta["tracked_at_utc"],
             )
             s.add(trade)
             await s.commit()
