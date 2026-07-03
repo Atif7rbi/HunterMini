@@ -1,13 +1,15 @@
 experiment:
-  id: HM-000
-  title: Baseline Isolation
-  status: active
-  version: mini-0.1.0
-  started_at: 2026-07-03
-  goal: Verify HunterMini isolation before strategy changes.
-  production_reference: HunterBot current production.
-  change_notes:
-    - No strategy changes.
-    - No TP/SL/trailing changes.
-    - Independent database, port, logs, reports, and identity.
-  decision: collecting_data
+  id: EXP-001
+  name: Aggressive Profile Optimization
+  goal: Test improved aggressive trade management profile before promotion to HunterBot.
+  status: Active
+  version: 1.0.0
+  build: v1.0.0
+  started_at: 2026-07-04
+  database: data/Hunter_mini.db
+  project: HunterMini
+  notes:
+    - HunterMini validation sandbox.
+    - One active experiment only.
+    - No new strategy or indicators.
+    - Direction Authority philosophy remains unchanged.
