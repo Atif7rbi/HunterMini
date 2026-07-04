@@ -7,9 +7,13 @@ entry, SL, or sizing. It only controls post-entry management behavior.
 from __future__ import annotations
 
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Any
 
+import yaml
+
 from src.core.config import settings
+from src.core.experiment import get_active_experiment_id
 
 
 @dataclass(frozen=True)
@@ -68,6 +72,35 @@ DEFAULT_PROFILES: dict[str, dict[str, float]] = {
 }
 
 
+ROOT_DIR = Path(__file__).resolve().parents[2]
+
+
+def _experiment_profile_dict() -> dict[str, Any]:
+    try:
+        experiment_id = get_active_experiment_id()
+        path = ROOT_DIR / "experiments" / experiment_id / "profile.yaml"
+        if not path.exists():
+            return {}
+
+        with path.open("r", encoding="utf-8") as f:
+            data = yaml.safe_load(f) or {}
+
+        profile_meta = data.get("profile", {})
+        if isinstance(profile_meta, dict) and profile_meta.get("enabled") is False:
+            return {}
+
+        return data if isinstance(data, dict) else {}
+    except Exception:
+        return {}
+
+
+def _active_profile_config() -> dict[str, Any]:
+    experiment_cfg = _experiment_profile_dict()
+    if experiment_cfg:
+        return experiment_cfg
+    return _cfg_dict()
+
+
 def _cfg_dict() -> dict[str, Any]:
     raw = getattr(settings, "management_profiles", None)
     if isinstance(raw, dict):
@@ -103,7 +136,7 @@ def default_fixed_profile() -> ManagementProfileSpec:
 
 
 def _profile_dict(name: str) -> dict[str, Any]:
-    cfg = _cfg_dict()
+    cfg = _active_profile_config()
     profiles = cfg.get("profiles") if isinstance(cfg.get("profiles"), dict) else {}
     raw = profiles.get(name, {}) if isinstance(profiles, dict) else {}
     base = DEFAULT_PROFILES.get(name, {})
@@ -132,7 +165,7 @@ def get_profile(name: str | None) -> ManagementProfileSpec:
 
 
 def profile_for_quality(quality_class: str | None) -> ManagementProfileSpec:
-    cfg = _cfg_dict()
+    cfg = _active_profile_config()
     mapping = DEFAULT_PROFILE_BY_QUALITY.copy()
     raw_map = cfg.get("quality_map")
     if isinstance(raw_map, dict):

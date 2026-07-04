@@ -1,0 +1,34 @@
+profile:
+  enabled: true
+  source: EXP-001
+  name: Aggressive Profile Optimization
+  notes:
+    - Experiment-specific management profile settings.
+    - Does not change direction, entry, SL, sizing, scanner, filters, or strategy logic.
+
+quality_map:
+  A: AGGRESSIVE
+  B: BALANCED
+  C: CONSERVATIVE
+
+profiles:
+  CONSERVATIVE:
+    tp1_r: 0.30
+    tp1_close_pct: 0.50
+    break_even_r: 0.50
+    trailing_r: 0.80
+    trailing_distance_r: 0.30
+
+  BALANCED:
+    tp1_r: 0.40
+    tp1_close_pct: 0.35
+    break_even_r: 0.60
+    trailing_r: 0.90
+    trailing_distance_r: 0.35
+
+  AGGRESSIVE:
+    tp1_r: 0.50
+    tp1_close_pct: 0.25
+    break_even_r: 0.70
+    trailing_r: 1.00
+    trailing_distance_r: 0.40
