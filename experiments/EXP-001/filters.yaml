@@ -1,0 +1,5 @@
+filters:
+  enabled: false
+  notes:
+    - No experiment-specific filters are active in EXP-001.
+    - This file is reserved for future validation experiments.

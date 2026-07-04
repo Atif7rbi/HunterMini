@@ -1,0 +1,22 @@
+experiment:
+  id: EXP-001
+  name: Aggressive Profile Optimization
+  status: Active
+  version: 1.0.0
+  build: v1.0.0
+  started_at: 2026-07-04
+  goal: Improve profit capture and reduce giveback using experiment-specific management profiles.
+  scope:
+    allowed:
+      - TP adjustment
+      - Break Even adjustment
+      - Trailing adjustment
+      - Management profile tuning
+      - Reporting improvements
+    not_allowed:
+      - New strategy
+      - New indicators
+      - Direction Authority changes
+      - Scanner logic changes
+      - Entry logic changes
+      - Sizing logic changes
