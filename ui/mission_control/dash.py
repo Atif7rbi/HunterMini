@@ -10,6 +10,7 @@ from sqlalchemy import desc, select
 
 from src.core.config import settings
 from src.core.database import AsyncSessionLocal, Trade, TradeStatus, ShadowTrade
+from src.core.report_identity import get_report_header
 from src.learning.performance_analyzer import ManagementAuditAnalyzer
 from ui.components.widgets import fmt_money_short, fmt_price
 from ui.mission_control.market_heatmap import render_market_heatmap
@@ -355,9 +356,23 @@ async def render_mission_control(
         except Exception:
             return "—"
 
+    report_header = get_report_header()
+
     with container:
         ui.html(f"""
         <div class="mc-wrap">
+
+          <div class="mc-card" style="margin-bottom:14px;">
+            <div class="mc-section-title">HUNTERMINI VALIDATION</div>
+            <div class="mc-list">
+              <div><span>Project</span><strong class="cyan">{esc(report_header.get("project", "HunterMini"))}</strong></div>
+              <div><span>Version / Build</span><strong>{esc(str(report_header.get("version", "1.0.0")))} / {esc(str(report_header.get("build", "v1.0.0")))}</strong></div>
+              <div><span>Git Commit</span><strong class="blue">{esc(str(report_header.get("git_commit", "unknown")))}</strong></div>
+              <div><span>Environment</span><strong class="yellow">{esc(str(report_header.get("environment", "validation")))}</strong></div>
+              <div><span>Active Experiment</span><strong class="purple">{esc(str(report_header.get("experiment_id", "EXP-001")))} — {esc(str(report_header.get("experiment_name", "Unknown Experiment")))}</strong></div>
+              <div><span>Database</span><strong>{esc(str(report_header.get("database", "Hunter_mini.db")))}</strong></div>
+            </div>
+          </div>
          
           <div class="mc-kpi-grid">
             <div class="mc-card kpi"><div class="label">BOT STATUS</div><div class="value {'neg' if kill else 'pos'}">{'ARMED' if kill else 'LIVE'}</div><div class="hint">{'Kill switch active' if kill else 'All systems operational'}</div></div>
