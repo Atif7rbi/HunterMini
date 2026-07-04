@@ -21,12 +21,6 @@ from pathlib import Path
 # live bot/helpers from here instead of creating a second duplicate app module.
 sys.modules.setdefault("ui.app", sys.modules[__name__])
 
-app.add_static_file(
-    local_file=str(Path(__file__).resolve().parent / 'Dashboard' / 'dashboard.html'),
-    url_path='/dashboard.html',
-)
-
-
 from sqlalchemy import case, desc, func, select, true
 from src.core.config import settings
 from src.core.database import (
